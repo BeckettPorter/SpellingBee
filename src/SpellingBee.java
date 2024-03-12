@@ -69,10 +69,6 @@ public class SpellingBee {
     //  that will find the substrings recursively.
     public void sort() {
         mergeSort(words, 0, words.size() - 1);
-        for (String w : words)
-        {
-            System.out.println(w);
-        }
     }
 
     public void mergeSort(ArrayList<String> inputList, int start, int end)
@@ -155,8 +151,45 @@ public class SpellingBee {
 
     // TODO: For each word in words, use binary search to see if it is in the dictionary.
     //  If it is not in the dictionary, remove it from words.
-    public void checkWords() {
-        // YOUR CODE HERE
+    public void checkWords()
+    {
+        for (int i = 0; i < words.size(); i++)
+        {
+            if (!binarySearch(words.get(i)))
+            {
+                words.remove(i);
+                i--;
+            }
+        }
+        for (String w : words)
+        {
+            System.out.println(w);
+        }
+    }
+
+    public boolean binarySearch(String targetWord)
+    {
+        int start = 0;
+        int end = DICTIONARY_SIZE - 1;
+
+        while (start <= end)
+        {
+            int middle = start + (end - start) / 2;
+
+            if (targetWord.compareTo(DICTIONARY[middle]) < 0)
+            {
+                end = middle - 1;
+            }
+            else if (targetWord.compareTo(DICTIONARY[middle]) > 0)
+            {
+                start = middle + 1;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Prints all valid words to wordList.txt
