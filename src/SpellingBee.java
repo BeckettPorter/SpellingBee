@@ -44,13 +44,101 @@ public class SpellingBee {
     //  Store them all in the ArrayList words. Do this by calling ANOTHER method
     //  that will find the substrings recursively.
     public void generate() {
-        // YOUR CODE HERE — Call your recursive method!
+        findSubstrings("", letters);
+    }
+
+    public void findSubstrings(String letters, String remaining)
+    {
+        if (!letters.isEmpty())
+        {
+            words.add(letters);
+        }
+
+        if (!remaining.isEmpty())
+        {
+            for (int i = 0; i < remaining.length(); i++)
+            {
+                String newWord = letters + remaining.charAt(i);
+                String newRemaining = remaining.substring(0, i) + remaining.substring(i + 1);
+                findSubstrings(newWord, newRemaining);
+            }
+        }
     }
 
     // TODO: Apply mergesort to sort all words. Do this by calling ANOTHER method
     //  that will find the substrings recursively.
     public void sort() {
-        // YOUR CODE HERE
+        mergeSort(words, 0, words.size() - 1);
+        for (String w : words)
+        {
+            System.out.println(w);
+        }
+    }
+
+    public void mergeSort(ArrayList<String> inputList, int start, int end)
+    {
+        if (start < end)
+        {
+            int middle = (start + end) / 2;
+
+            mergeSort(inputList, start, middle);
+            mergeSort(inputList, middle + 1, end);
+
+            merge(inputList, start, middle, end);
+        }
+    }
+
+
+    public void merge(ArrayList<String> list, int start, int middle, int end)
+    {
+        int size1 = middle - start + 1;
+        int size2 = end - middle;
+
+        ArrayList<String> left = new ArrayList<>(size1);
+        ArrayList<String> right = new ArrayList<>(size2);
+
+        for (int i = 0;i < size1; ++i)
+        {
+            left.add(i, list.get(start + i));
+        }
+        for (int j = 0; j < size2; ++j)
+        {
+            right.add(j, list.get(middle + 1 + j));
+        }
+
+        int i = 0;
+        int j = 0;
+
+        int x = start;
+        while (i < size1 && j < size2)
+        {
+            if (left.get(i).compareTo(right.get(j)) <= 0)
+            {
+                list.set(x, left.get(i));
+                i++;
+            }
+            else
+            {
+                list.set(x, right.get(j));
+                j++;
+            }
+            x++;
+        }
+
+        while (i < size1)
+        {
+            list.set(x, left.get(i));
+            i++;
+            x++;
+        }
+
+        while (j < size2)
+        {
+            list.set(x, right.get(j));
+            j++;
+            x++;
+        }
+
     }
 
     // Removes duplicates from the sorted list.
