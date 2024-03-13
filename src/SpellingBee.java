@@ -22,7 +22,7 @@ import java.util.Scanner;
  * It utilizes recursion to generate the strings, mergesort to sort them, and
  * binary search to find them in a dictionary.
  *
- * @author Zach Blick, [ADD YOUR NAME HERE]
+ * @author Zach Blick, Beckett Porter
  *
  * Written on March 5, 2023 for CS2 @ Menlo School
  *
@@ -68,23 +68,26 @@ public class SpellingBee {
     // TODO: Apply mergesort to sort all words. Do this by calling ANOTHER method
     //  that will find the substrings recursively.
     public void sort() {
-        mergeSort(words, 0, words.size() - 1);
+        divideAndMergeSort(words, 0, words.size() - 1);
     }
 
-    public void mergeSort(ArrayList<String> inputList, int start, int end)
+    // This method takes an input list, start, and end index. It then calls itself recursively to divide up
+    // the starting array into many smaller ones, then calling merge on them to combine them back into the larger
+    // sorted array.
+    public void divideAndMergeSort(ArrayList<String> inputList, int start, int end)
     {
         if (start < end)
         {
             int middle = (start + end) / 2;
 
-            mergeSort(inputList, start, middle);
-            mergeSort(inputList, middle + 1, end);
+            divideAndMergeSort(inputList, start, middle);
+            divideAndMergeSort(inputList, middle + 1, end);
 
             merge(inputList, start, middle, end);
         }
     }
 
-
+    // Merge method which takes an input list, a start, middle, and end index in this array
     public void merge(ArrayList<String> list, int start, int middle, int end)
     {
         int size1 = middle - start + 1;
@@ -93,19 +96,19 @@ public class SpellingBee {
         ArrayList<String> left = new ArrayList<>(size1);
         ArrayList<String> right = new ArrayList<>(size2);
 
-        for (int i = 0;i < size1; ++i)
+        for (int i = 0;i < size1; i++)
         {
             left.add(i, list.get(start + i));
         }
-        for (int j = 0; j < size2; ++j)
+        for (int j = 0; j < size2; j++)
         {
             right.add(j, list.get(middle + 1 + j));
         }
 
         int i = 0;
         int j = 0;
-
         int x = start;
+        // Compare values of Strings in the array at indexes i and j
         while (i < size1 && j < size2)
         {
             if (left.get(i).compareTo(right.get(j)) <= 0)
@@ -120,21 +123,19 @@ public class SpellingBee {
             }
             x++;
         }
-
+        // Add any remaining elements of the remaining group of Strings in the array
         while (i < size1)
         {
             list.set(x, left.get(i));
             i++;
             x++;
         }
-
         while (j < size2)
         {
             list.set(x, right.get(j));
             j++;
             x++;
         }
-
     }
 
     // Removes duplicates from the sorted list.
