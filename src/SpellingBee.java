@@ -47,6 +47,7 @@ public class SpellingBee {
         findSubstrings("", letters);
     }
 
+    // findSubstrings calls itself recursively to fing all possible variations of a word with the given letters
     public void findSubstrings(String letters, String remaining)
     {
         if (!letters.isEmpty())
@@ -123,7 +124,7 @@ public class SpellingBee {
             }
             x++;
         }
-        // Add any remaining elements of the remaining group of Strings in the array
+        // add any remaining elements of the remaining group of strings in the array
         while (i < size1)
         {
             list.set(x, left.get(i));
@@ -168,6 +169,7 @@ public class SpellingBee {
         }
     }
 
+    // Binary search method that goes through the whole dictionary array and finds if the targetWord string is in it.
     public boolean binarySearch(String targetWord)
     {
         int start = 0;
